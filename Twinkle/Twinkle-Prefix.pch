@@ -8,6 +8,7 @@
     #import <Cocoa/Cocoa.h>
 
     #import "CommonMacros.h"
+    #import "Coby.h"
 
     #import "AppDelegate.h"
 #endif

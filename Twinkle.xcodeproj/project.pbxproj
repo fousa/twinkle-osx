@@ -18,6 +18,10 @@
 		9D6999CF1610DB840062EB3F /* hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D6999CD1610DB840062EB3F /* hr.png */; };
 		9D6999D01610DB840062EB3F /* hr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D6999CE1610DB840062EB3F /* hr@2x.png */; };
 		9D82E0E8167B71F6002FC8E7 /* TwinkleHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D82E0E6167B7109002FC8E7 /* TwinkleHelper.app */; };
+		9D82E0F7167B7546002FC8E7 /* blink1-lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D82E0F2167B7546002FC8E7 /* blink1-lib.c */; };
+		9D82E0F8167B7546002FC8E7 /* hid.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D82E0F4167B7546002FC8E7 /* hid.c */; };
+		9D82E0FC167B7592002FC8E7 /* Blink1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82E0FB167B7592002FC8E7 /* Blink1.m */; };
+		9D82E0FE167B7647002FC8E7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D82E0FD167B7647002FC8E7 /* IOKit.framework */; };
 		9DCDC61E1610B0960061CBED /* NSArray+Coby.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDC60A1610B0960061CBED /* NSArray+Coby.m */; };
 		9DCDC61F1610B0960061CBED /* NSDictionary+Coby.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDC60C1610B0960061CBED /* NSDictionary+Coby.m */; };
 		9DCDC6201610B0960061CBED /* NSObject+Coby.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDC60E1610B0960061CBED /* NSObject+Coby.m */; };
@@ -69,6 +73,14 @@
 		9D6999CD1610DB840062EB3F /* hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hr.png; sourceTree = "<group>"; };
 		9D6999CE1610DB840062EB3F /* hr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hr@2x.png"; sourceTree = "<group>"; };
 		9D699A081610DD650062EB3F /* TwinkleHelper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwinkleHelper.xcodeproj; path = TwinkleHelper/TwinkleHelper.xcodeproj; sourceTree = "<group>"; };
+		9D82E0F2167B7546002FC8E7 /* blink1-lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "blink1-lib.c"; sourceTree = "<group>"; };
+		9D82E0F3167B7546002FC8E7 /* blink1-lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "blink1-lib.h"; sourceTree = "<group>"; };
+		9D82E0F4167B7546002FC8E7 /* hid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hid.c; sourceTree = "<group>"; };
+		9D82E0F5167B7546002FC8E7 /* hidapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hidapi.h; sourceTree = "<group>"; };
+		9D82E0F6167B7546002FC8E7 /* usbconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbconfig.h; sourceTree = "<group>"; };
+		9D82E0FA167B7592002FC8E7 /* Blink1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blink1.h; sourceTree = "<group>"; };
+		9D82E0FB167B7592002FC8E7 /* Blink1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blink1.m; sourceTree = "<group>"; };
+		9D82E0FD167B7647002FC8E7 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9DCDC6081610B0960061CBED /* Coby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coby.h; sourceTree = "<group>"; };
 		9DCDC6091610B0960061CBED /* NSArray+Coby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Coby.h"; sourceTree = "<group>"; };
 		9DCDC60A1610B0960061CBED /* NSArray+Coby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Coby.m"; sourceTree = "<group>"; };
@@ -90,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D82E0FE167B7647002FC8E7 /* IOKit.framework in Frameworks */,
 				9DCDC62B1610B0FC0061CBED /* Carbon.framework in Frameworks */,
 				9DCDC6291610B0F60061CBED /* ServiceManagement.framework in Frameworks */,
 				9D4621C3160B3F99003E589D /* Social.framework in Frameworks */,
@@ -120,6 +133,7 @@
 		9D4621A4160B3F79003E589D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D82E0FD167B7647002FC8E7 /* IOKit.framework */,
 				9DCDC62A1610B0FC0061CBED /* Carbon.framework */,
 				9DCDC6281610B0F60061CBED /* ServiceManagement.framework */,
 				9D4621C2160B3F99003E589D /* Social.framework */,
@@ -142,6 +156,7 @@
 		9D4621AB160B3F79003E589D /* Twinkle */ = {
 			isa = PBXGroup;
 			children = (
+				9D82E0F9167B758A002FC8E7 /* Blink */,
 				9D4621B7160B3F79003E589D /* AppDelegate.h */,
 				9D4621B8160B3F79003E589D /* AppDelegate.m */,
 				9D6999CC1610DB840062EB3F /* Assets */,
@@ -182,9 +197,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9D82E0F1167B7546002FC8E7 /* Blink-lib */ = {
+			isa = PBXGroup;
+			children = (
+				9D82E0F2167B7546002FC8E7 /* blink1-lib.c */,
+				9D82E0F3167B7546002FC8E7 /* blink1-lib.h */,
+				9D82E0F4167B7546002FC8E7 /* hid.c */,
+				9D82E0F5167B7546002FC8E7 /* hidapi.h */,
+				9D82E0F6167B7546002FC8E7 /* usbconfig.h */,
+			);
+			path = "Blink-lib";
+			sourceTree = "<group>";
+		};
+		9D82E0F9167B758A002FC8E7 /* Blink */ = {
+			isa = PBXGroup;
+			children = (
+				9D82E0FA167B7592002FC8E7 /* Blink1.h */,
+				9D82E0FB167B7592002FC8E7 /* Blink1.m */,
+			);
+			name = Blink;
+			sourceTree = "<group>";
+		};
 		9DCDC6061610B0960061CBED /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9D82E0F1167B7546002FC8E7 /* Blink-lib */,
 				9D699A081610DD650062EB3F /* TwinkleHelper.xcodeproj */,
 				9DCDC6071610B0960061CBED /* Coby */,
 				9DCDC6111610B0960061CBED /* CommonMacros.h */,
@@ -317,6 +354,9 @@
 				9DCDC6201610B0960061CBED /* NSObject+Coby.m in Sources */,
 				9DCDC6211610B0960061CBED /* NSString+Coby.m in Sources */,
 				9DCDC6261610B0960061CBED /* StartAtLoginController.m in Sources */,
+				9D82E0F7167B7546002FC8E7 /* blink1-lib.c in Sources */,
+				9D82E0F8167B7546002FC8E7 /* hid.c in Sources */,
+				9D82E0FC167B7592002FC8E7 /* Blink1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +438,6 @@
 		9D4621C0160B3F7A003E589D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twinkle/Twinkle-Prefix.pch";
@@ -412,7 +451,6 @@
 		9D4621C1160B3F7A003E589D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Twinkle/Twinkle-Prefix.pch";
