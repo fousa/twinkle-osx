@@ -1,0 +1,13 @@
+//
+// Prefix header for all source files of the 'FastTwitter' target in the 'FastTwitter' project
+//
+
+#define twinkle ((AppDelegate *)[NSApplication sharedApplication].delegate)
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+
+    #import "CommonMacros.h"
+
+    #import "AppDelegate.h"
+#endif
