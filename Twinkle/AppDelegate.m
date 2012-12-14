@@ -16,6 +16,10 @@
     IBOutlet NSButton *_startAtLoginButton;
     IBOutlet NSTextField *_label;
     IBOutlet NSTableView *_tableView;
+    IBOutlet NSView *_detailContainer;
+    IBOutlet NSTextField *_applicationLabel;
+    IBOutlet NSColorWell *_colorWell;
+    IBOutlet NSButton *_activeButton;
     
     StartAtLoginController *_loginController;
     
@@ -51,7 +55,10 @@
     [_loginController setBundle:[NSBundle bundleWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Library/LoginItems/TwinkleHelper.app"]]];
     _startAtLoginButton.state = [_loginController startAtLogin];
     
-    [self settings:nil];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
+        [self settings:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+    }
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
@@ -80,10 +87,22 @@
     return [applicationPath lastPathComponent];
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+    if (_tableView.selectedRow >= 0) {
+        _detailContainer.alphaValue = 1.0f;
+
+        NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
+        _applicationLabel.stringValue = applicationPath.lastPathComponent;
+    } else {
+        _detailContainer.alphaValue = 0.0f;
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)settings:(id)sender {
     [self fillApplications];
+    _detailContainer.alphaValue = 0.0f;
     
     [[self blink] fadeToRGBstr:@"#ffffff" atTime:0];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(setBlinkText:) userInfo:nil repeats:YES];
