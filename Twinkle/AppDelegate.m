@@ -15,14 +15,18 @@
 @interface AppDelegate () <NSSharingServiceDelegate> {
     IBOutlet NSButton *_startAtLoginButton;
     IBOutlet NSTextField *_label;
+    IBOutlet NSTableView *_tableView;
     
     StartAtLoginController *_loginController;
     
     BOOL _isSharing;
     NSTimer *_timer;
     Blink1 *_blink;
+    NSMutableArray *_applications;
 }
 - (Blink1 *)blink;
+- (void)applicationsInDirectory:(NSString *)path;
+- (void)fillApplications;
 @end
 
 @implementation AppDelegate
@@ -65,9 +69,22 @@
     [_timer invalidate];
 }
 
+#pragma mark - Table
+
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+    return (int)_applications.count;
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+    NSString *applicationPath = [_applications objectAtIndex:row];
+    return [applicationPath lastPathComponent];
+}
+
 #pragma mark - Actions
 
 - (IBAction)settings:(id)sender {
+    [self fillApplications];
+    
     [[self blink] fadeToRGBstr:@"#ffffff" atTime:0];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(setBlinkText:) userInfo:nil repeats:YES];
     [_timer fire];
@@ -100,6 +117,37 @@
     }
 
     _startAtLoginButton.state = [_loginController startAtLogin];
+}
+
+#pragma mark - Applications
+
+- (void)fillApplications {
+    _applications = [NSMutableArray array];
+    NSString *homeAppDir = [[@"~" stringByExpandingTildeInPath] stringByAppendingPathComponent:@"Applications"];
+    NSArray *searchPaths = [NSArray arrayWithObjects:@"/Applications", @"/Network/Applications",
+                           @"/Developer/Applications", homeAppDir, nil];
+    NSEnumerator *searchPathEnum = [searchPaths objectEnumerator];
+    NSString *path;
+    while (path = [searchPathEnum nextObject]) {
+        [self applicationsInDirectory:path];
+    }
+    [_tableView reloadData];
+}
+
+- (void)applicationsInDirectory:(NSString *)path {
+    BOOL isDir;
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *files = [manager contentsOfDirectoryAtPath:path error:nil];
+    NSEnumerator *fileEnum = [files objectEnumerator];
+    NSString *file;
+    while (file = [fileEnum nextObject]) {
+        [manager changeCurrentDirectoryPath:path];
+        if ([manager fileExistsAtPath:file isDirectory:&isDir] && isDir) {
+            NSString *fullpath = [path stringByAppendingPathComponent:file];
+            if ([[file pathExtension] isEqualToString:@"app"]) [_applications addObject:fullpath];
+            else [self applicationsInDirectory:fullpath];
+        }
+    }
 }
 
 @end
