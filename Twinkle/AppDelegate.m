@@ -51,6 +51,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCloseSettingsWindow:) name:NSWindowWillCloseNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(applicationDidActivate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     
     _isSharing = NO;
     
@@ -69,6 +70,8 @@
     return YES;
 }
 
+#pragma mark - Notifications
+
 - (void)applicationWillTerminate:(NSNotification *)notification {
     [[self blink] fadeToRGBstr:@"#000000" atTime:0];
     [_timer invalidate];
@@ -77,6 +80,17 @@
 - (void)didCloseSettingsWindow:(NSNotification *)notification {
     [[self blink] fadeToRGBstr:@"#000000" atTime:0];
     [_timer invalidate];
+}
+
+- (void)applicationDidActivate:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSString *path = ((NSRunningApplication *)userInfo[@"NSWorkspaceApplicationKey"]).bundleURL.path;
+    NSDictionary *dict = [self applicationSettingsFromPath:path];
+    if (dict && [dict[@"active"] boolValue]) {
+        [[self blink] fadeToRGBstr:dict[@"color"] atTime:0];
+    } else {
+        [[self blink] fadeToRGBstr:@"#000000" atTime:0];
+    }
 }
 
 #pragma mark - Table
