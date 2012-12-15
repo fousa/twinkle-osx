@@ -562,7 +562,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="435293211"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -632,14 +632,6 @@
 					<int key="connectionID">592</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleStartAtLogin:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="711314913"/>
-					</object>
-					<int key="connectionID">593</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">_label</string>
 						<reference key="source" ref="976324537"/>
@@ -686,6 +678,30 @@
 						<reference key="destination" ref="89871208"/>
 					</object>
 					<int key="connectionID">660</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleStartAtLogin:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="711314913"/>
+					</object>
+					<int key="connectionID">662</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleActive:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="89871208"/>
+					</object>
+					<int key="connectionID">663</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setColor:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="687350841"/>
+					</object>
+					<int key="connectionID">665</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -939,8 +955,8 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="535005415"/>
 							<reference ref="736160187"/>
-							<reference ref="687350841"/>
 							<reference ref="89871208"/>
+							<reference ref="687350841"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -1040,13 +1056,37 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">660</int>
+			<int key="maxID">665</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="setColor:">id</string>
+						<string key="settings:">id</string>
+						<string key="toggleActive:">id</string>
+						<string key="toggleStartAtLogin:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="setColor:">
+							<string key="name">setColor:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="settings:">
+							<string key="name">settings:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleActive:">
+							<string key="name">toggleActive:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleStartAtLogin:">
+							<string key="name">toggleStartAtLogin:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_activeButton">NSButton</string>
 						<string key="_applicationLabel">NSTextField</string>

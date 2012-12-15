@@ -443,7 +443,6 @@
 				GCC_PREFIX_HEADER = "Twinkle/Twinkle-Prefix.pch";
 				INFOPLIST_FILE = "Twinkle/Twinkle-Info.plist";
 				PRODUCT_NAME = Twinkle;
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -456,7 +455,6 @@
 				GCC_PREFIX_HEADER = "Twinkle/Twinkle-Prefix.pch";
 				INFOPLIST_FILE = "Twinkle/Twinkle-Info.plist";
 				PRODUCT_NAME = Twinkle;
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

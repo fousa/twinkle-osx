@@ -31,6 +31,9 @@
 - (Blink1 *)blink;
 - (void)applicationsInDirectory:(NSString *)path;
 - (void)fillApplications;
+- (NSString *)supportPath;
+- (NSDictionary *)applicationSettingsFromPath:(NSString *)applicationPath;
+- (void)setApplicationData:(NSString *)applicationPath color:(NSColor *)color active:(BOOL)active;
 @end
 
 @implementation AppDelegate
@@ -55,10 +58,10 @@
     [_loginController setBundle:[NSBundle bundleWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Library/LoginItems/TwinkleHelper.app"]]];
     _startAtLoginButton.state = [_loginController startAtLogin];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
         [self settings:nil];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
-    }
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+//    }
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
@@ -93,6 +96,14 @@
 
         NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
         _applicationLabel.stringValue = applicationPath.lastPathComponent;
+        NSDictionary *application = [self applicationSettingsFromPath:applicationPath];
+        if (application) {
+            _activeButton.state = [[application objectForKey:@"active"] boolValue] ? NSOnState : NSOffState;
+            _colorWell.color = [Blink1 colorFromHexRGB:[application objectForKey:@"color"]];
+        } else {
+            _activeButton.state = NSOffState;
+            _colorWell.color = [Blink1 colorFromHexRGB:@"#000000"];
+        }
     } else {
         _detailContainer.alphaValue = 0.0f;
     }
@@ -114,6 +125,16 @@
 
 - (void)setBlinkText:(NSTimer *)timer {
     _label.stringValue = [NSString stringWithFormat:@"Total blinks connected: %li", [self blink].serialnums.count];
+}
+
+- (IBAction)toggleActive:(id)sender {
+    NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
+    [self setApplicationData:applicationPath color:_colorWell.color active:_activeButton.state == NSOnState];
+}
+
+- (IBAction)setColor:(id)sender {
+    NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
+    [self setApplicationData:applicationPath color:_colorWell.color active:_activeButton.state == NSOnState];
 }
 
 - (IBAction)toggleStartAtLogin:(id)sender {
@@ -167,6 +188,31 @@
             else [self applicationsInDirectory:fullpath];
         }
     }
+}
+
+#pragma mark - Plist
+
+- (NSString *)supportPath {
+    NSString *folder = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES)[0];
+    folder = [folder stringByAppendingPathComponent:@"Twinkle"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:folder] == NO) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
+        
+    }
+    return folder;
+}
+
+- (NSDictionary *)applicationSettingsFromPath:(NSString *)applicationPath {
+    NSString *path = [[self supportPath] stringByAppendingPathComponent:@"Applications.plist"];
+    return [[NSDictionary dictionaryWithContentsOfFile:path] objectForKey:applicationPath];
+}
+
+- (void)setApplicationData:(NSString *)applicationPath color:(NSColor *)color active:(BOOL)active {
+    NSString *path = [[self supportPath] stringByAppendingPathComponent:@"Applications.plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    if (!dict) dict = [NSMutableDictionary dictionary];
+    [dict set:@{ @"color": [Blink1 hexStringFromColor:color], @"active": @(active) } for:applicationPath];
+    [dict writeToFile:path atomically:NO];
 }
 
 @end
