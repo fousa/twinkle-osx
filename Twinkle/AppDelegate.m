@@ -20,16 +20,16 @@
     IBOutlet NSTextField *_applicationLabel;
     IBOutlet NSColorWell *_colorWell;
     IBOutlet NSButton *_activeButton;
+    IBOutlet NSImageView *_imageView;
     
     StartAtLoginController *_loginController;
     
     BOOL _isSharing;
     NSTimer *_timer;
     Blink1 *_blink;
-    NSMutableArray *_applications;
+    NSArray *_applications;
 }
 - (Blink1 *)blink;
-- (void)applicationsInDirectory:(NSString *)path;
 - (void)fillApplications;
 - (NSString *)supportPath;
 - (NSDictionary *)applicationSettingsFromPath:(NSString *)applicationPath;
@@ -59,10 +59,10 @@
     [_loginController setBundle:[NSBundle bundleWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Library/LoginItems/TwinkleHelper.app"]]];
     _startAtLoginButton.state = [_loginController startAtLogin];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
         [self settings:nil];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
-    }
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+//    }
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
@@ -100,20 +100,25 @@
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-    NSString *applicationPath = [_applications objectAtIndex:row];
-    return [applicationPath lastPathComponent];
+    NSRunningApplication *application = [_applications objectAtIndex:row];
+    if ([tableColumn.identifier isEqualToString:@"icon"]) {
+        return application.icon;
+    } else {
+        return application.localizedName;
+    }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
     if (_tableView.selectedRow >= 0) {
         _detailContainer.alphaValue = 1.0f;
 
-        NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
-        _applicationLabel.stringValue = applicationPath.lastPathComponent;
-        NSDictionary *application = [self applicationSettingsFromPath:applicationPath];
-        if (application) {
-            _activeButton.state = [[application objectForKey:@"active"] boolValue] ? NSOnState : NSOffState;
-            _colorWell.color = [Blink1 colorFromHexRGB:[application objectForKey:@"color"]];
+        NSRunningApplication *application = [_applications objectAtIndex:_tableView.selectedRow];
+        _applicationLabel.stringValue = application.bundleIdentifier;
+        _imageView.image = application.icon;
+        NSDictionary *dict = [self applicationSettingsFromPath:application.bundleIdentifier];
+        if (dict) {
+            _activeButton.state = [[dict objectForKey:@"active"] boolValue] ? NSOnState : NSOffState;
+            _colorWell.color = [Blink1 colorFromHexRGB:[dict objectForKey:@"color"]];
         } else {
             _activeButton.state = NSOffState;
             _colorWell.color = [Blink1 colorFromHexRGB:@"#000000"];
@@ -142,13 +147,13 @@
 }
 
 - (IBAction)toggleActive:(id)sender {
-    NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
-    [self setApplicationData:applicationPath color:_colorWell.color active:_activeButton.state == NSOnState];
+    NSRunningApplication *application = [_applications objectAtIndex:_tableView.selectedRow];
+    [self setApplicationData:application.bundleIdentifier color:_colorWell.color active:_activeButton.state == NSOnState];
 }
 
 - (IBAction)setColor:(id)sender {
-    NSString *applicationPath = [_applications objectAtIndex:_tableView.selectedRow];
-    [self setApplicationData:applicationPath color:_colorWell.color active:_activeButton.state == NSOnState];
+    NSRunningApplication *application = [_applications objectAtIndex:_tableView.selectedRow];
+    [self setApplicationData:application.bundleIdentifier color:_colorWell.color active:_activeButton.state == NSOnState];
 }
 
 - (IBAction)toggleStartAtLogin:(id)sender {
@@ -176,32 +181,8 @@
 #pragma mark - Applications
 
 - (void)fillApplications {
-    _applications = [NSMutableArray array];
-    NSString *homeAppDir = [[@"~" stringByExpandingTildeInPath] stringByAppendingPathComponent:@"Applications"];
-    NSArray *searchPaths = [NSArray arrayWithObjects:@"/Applications", @"/Network/Applications",
-                           @"/Developer/Applications", homeAppDir, nil];
-    NSEnumerator *searchPathEnum = [searchPaths objectEnumerator];
-    NSString *path;
-    while (path = [searchPathEnum nextObject]) {
-        [self applicationsInDirectory:path];
-    }
+    _applications = [NSWorkspace sharedWorkspace].runningApplications;
     [_tableView reloadData];
-}
-
-- (void)applicationsInDirectory:(NSString *)path {
-    BOOL isDir;
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSArray *files = [manager contentsOfDirectoryAtPath:path error:nil];
-    NSEnumerator *fileEnum = [files objectEnumerator];
-    NSString *file;
-    while (file = [fileEnum nextObject]) {
-        [manager changeCurrentDirectoryPath:path];
-        if ([manager fileExistsAtPath:file isDirectory:&isDir] && isDir) {
-            NSString *fullpath = [path stringByAppendingPathComponent:file];
-            if ([[file pathExtension] isEqualToString:@"app"]) [_applications addObject:fullpath];
-            else [self applicationsInDirectory:fullpath];
-        }
-    }
 }
 
 #pragma mark - Plist
