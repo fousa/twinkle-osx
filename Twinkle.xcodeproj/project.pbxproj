@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D3F85F8167E75F2002278B9 /* mac.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 9D3F85F7167E75F2002278B9 /* mac.iconset */; };
 		9D45FBD916110403007B5547 /* icon_128x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D45FBD716110403007B5547 /* icon_128x128.png */; };
 		9D45FBDA16110403007B5547 /* icon_128x128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D45FBD816110403007B5547 /* icon_128x128@2x.png */; };
 		9D4621A6160B3F79003E589D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4621A5160B3F79003E589D /* Cocoa.framework */; };
@@ -55,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D3F85F7167E75F2002278B9 /* mac.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = mac.iconset; sourceTree = "<group>"; };
 		9D45FBD716110403007B5547 /* icon_128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_128x128.png; sourceTree = "<group>"; };
 		9D45FBD816110403007B5547 /* icon_128x128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_128x128@2x.png"; sourceTree = "<group>"; };
 		9D4621A1160B3F79003E589D /* Twinkle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twinkle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 		9D462196160B3F79003E589D = {
 			isa = PBXGroup;
 			children = (
+				9D3F85F7167E75F2002278B9 /* mac.iconset */,
 				9D4621AB160B3F79003E589D /* Twinkle */,
 				9D4621A4160B3F79003E589D /* Frameworks */,
 				9D4621A2160B3F79003E589D /* Products */,
@@ -337,6 +340,7 @@
 				9D6999D01610DB840062EB3F /* hr@2x.png in Resources */,
 				9D45FBD916110403007B5547 /* icon_128x128.png in Resources */,
 				9D45FBDA16110403007B5547 /* icon_128x128@2x.png in Resources */,
+				9D3F85F8167E75F2002278B9 /* mac.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
