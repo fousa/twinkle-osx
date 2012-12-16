@@ -59,10 +59,10 @@
     [_loginController setBundle:[NSBundle bundleWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Library/LoginItems/TwinkleHelper.app"]]];
     _startAtLoginButton.state = [_loginController startAtLogin];
     
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
         [self settings:nil];
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
-//    }
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+    }
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
