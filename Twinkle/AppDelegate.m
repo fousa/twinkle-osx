@@ -84,7 +84,7 @@
 
 - (void)applicationDidActivate:(NSNotification *)notification {
     NSDictionary *userInfo = [notification userInfo];
-    NSString *path = ((NSRunningApplication *)userInfo[@"NSWorkspaceApplicationKey"]).bundleURL.path;
+    NSString *path = ((NSRunningApplication *)userInfo[@"NSWorkspaceApplicationKey"]).bundleIdentifier;
     NSDictionary *dict = [self applicationSettingsFromPath:path];
     if (dict && [dict[@"active"] boolValue]) {
         [[self blink] fadeToRGBstr:dict[@"color"] atTime:0];
@@ -134,7 +134,6 @@
     [self fillApplications];
     _detailContainer.alphaValue = 0.0f;
     
-    [[self blink] fadeToRGBstr:@"#ffffff" atTime:0];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(setBlinkText:) userInfo:nil repeats:YES];
     [_timer fire];
     
@@ -154,6 +153,8 @@
 - (IBAction)setColor:(id)sender {
     NSRunningApplication *application = [_applications objectAtIndex:_tableView.selectedRow];
     [self setApplicationData:application.bundleIdentifier color:_colorWell.color active:_activeButton.state == NSOnState];
+    //[[self blink] fadeToRGBstr:@"#ffffff" atTime:0];
+    [[self blink] fadeToRGB:_colorWell.color atTime:0];
 }
 
 - (IBAction)toggleStartAtLogin:(id)sender {
