@@ -87,11 +87,23 @@
 - (void)applicationDidActivate:(NSNotification *)notification {
     NSDictionary *userInfo = [notification userInfo];
     NSString *path = ((NSRunningApplication *)userInfo[@"NSWorkspaceApplicationKey"]).bundleIdentifier;
-    NSDictionary *dict = [self applicationSettingsFromPath:path];
-    if (dict && [dict[@"active"] boolValue]) {
-        [[self blink] fadeToRGBstr:dict[@"color"] atTime:0];
+    if ([self.window isVisible]) {
+        [self fillApplications];
+        for (NSInteger i = 0; i < _applications.count; i++) {
+            NSRunningApplication *application = _applications[i];
+            if ([application.bundleIdentifier isEqualToString:path]) {
+                [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:i] byExtendingSelection:NO];
+                [_tableView scrollRowToVisible:i];
+                break;
+            }
+        }
     } else {
-        [[self blink] fadeToRGBstr:@"#000000" atTime:0];
+        NSDictionary *dict = [self applicationSettingsFromPath:path];
+        if (dict && [dict[@"active"] boolValue]) {
+            [[self blink] fadeToRGBstr:dict[@"color"] atTime:0];
+        } else {
+            [[self blink] fadeToRGBstr:@"#000000" atTime:0];
+        }
     }
 }
 
