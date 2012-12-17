@@ -53,6 +53,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCloseSettingsWindow:) name:NSWindowWillCloseNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(applicationDidActivate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     
+    self.window.level = NSStatusWindowLevel;
+    
     _isSharing = NO;
     
     _loginController = [StartAtLoginController new];
